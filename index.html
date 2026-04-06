@@ -50,7 +50,7 @@ body { font-family: var(--font); color: var(--renk-metin); }
 .header-ikon { width: 34px; height: 34px; background: rgba(255,255,255,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
 .geri-btn { background: rgba(255,255,255,0.2); border: none; border-radius: 50%; width: 34px; height: 34px; color: white; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 .icerik { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 14px; }
-.logo-alani { background: linear-gradient(160deg, var(--renk-ana) 0%, var(--renk-ana-koyu) 100%); padding: 48px 24px 36px; display: flex; flex-direction: column; align-items: center; gap: 8px; flex-shrink: 0; }
+.logo-alani { background: linear-gradient(160deg, #e91e8c 0%, #be185d 100%); padding: 48px 24px 36px; display: flex; flex-direction: column; align-items: center; gap: 8px; flex-shrink: 0; }
 .logo-daire { width: 80px; height: 80px; background: rgba(255,255,255,0.2); border-radius: 24px; display: flex; align-items: center; justify-content: center; font-size: 38px; margin-bottom: 8px; }
 .logo-alani h2 { color: white; font-size: 24px; font-weight: 700; }
 .logo-alani p { color: rgba(255,255,255,0.75); font-size: 13px; }
@@ -146,7 +146,7 @@ body { font-family: var(--font); color: var(--renk-metin); }
 .nav-etiket { font-size: 10px; color: var(--renk-metin2); }
 .nav-btn.aktif .nav-etiket { color: var(--renk-ana); font-weight: 600; }
 .ayar-bolum { background: white; border-radius: var(--radius); border: 1.5px solid var(--renk-sinir); margin-bottom: 14px; overflow: hidden; }
-.ayar-baslik { padding: 12px 16px; background: var(--renk-ana-acik); font-size: 12px; font-weight: 700; color: var(--renk-ana); text-transform: uppercase; letter-spacing: 0.5px; }
+.ayar-baslik { padding: 12px 16px; background: var(--renk-ana-acik); font-size: 12px; font-weight: 700; color: var(--renk-baslik-yazi, #555555); text-transform: uppercase; letter-spacing: 0.5px; }
 .ayar-satir { display: flex; align-items: center; padding: 13px 16px; border-bottom: 1px solid var(--renk-sinir); gap: 12px; }
 .ayar-satir:last-child { border-bottom: none; }
 .ayar-etiket { font-size: 14px; flex: 1; }
@@ -163,7 +163,7 @@ body { font-family: var(--font); color: var(--renk-metin); }
 .bos-durum { text-align: center; padding: 40px 20px; color: var(--renk-metin2); }
 .bos-durum .bos-ikon { font-size: 48px; margin-bottom: 12px; }
 .bos-durum p { font-size: 14px; }
-#yukleniyor { position: absolute; inset: 0; background: linear-gradient(160deg, var(--renk-ana) 0%, var(--renk-ana-koyu) 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; z-index: 999; }
+#yukleniyor { position: absolute; inset: 0; background: linear-gradient(160deg, #e91e8c 0%, #be185d 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; z-index: 999; }
 #yukleniyor .logo { font-size: 56px; }
 #yukleniyor p { color: rgba(255,255,255,0.8); font-size: 14px; }
 .spinner { width: 36px; height: 36px; border: 3px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: donus 0.8s linear infinite; }
@@ -522,6 +522,10 @@ body { font-family: var(--font); color: var(--renk-metin); }
         <div class="ayar-satir">
           <div><div class="ayar-etiket">Açık Ton</div><div class="ayar-aciklama">Arka plan tonu</div></div>
           <input type="color" class="renk-sec" id="ayar-acik-renk" value="#d8f3dc" oninput="renkGuncelle('--renk-ana-acik',this.value)" />
+        </div>
+        <div class="ayar-satir">
+          <div><div class="ayar-etiket">Bölüm Başlığı Rengi</div><div class="ayar-aciklama">Hesap bilgileri, kilo grafiği gibi başlıklar</div></div>
+          <input type="color" class="renk-sec" id="ayar-baslik-renk" value="#2d6a4f" oninput="renkGuncelle('--renk-baslik-yazi',this.value)" />
         </div>
         <div class="ayar-satir">
           <div><div class="ayar-etiket">Uygulama Adı</div></div>
@@ -1459,12 +1463,14 @@ function ayarlariUygula() {
   document.documentElement.style.setProperty('--renk-ana',ayarlar.anaRenk);
   document.documentElement.style.setProperty('--renk-ana-koyu',ayarlar.koyuRenk);
   document.documentElement.style.setProperty('--renk-ana-acik',ayarlar.acikRenk);
+  document.documentElement.style.setProperty('--renk-baslik-yazi', ayarlar.baslikRenk||'#555555');
   if(e('app-adi-gorsel'))e('app-adi-gorsel').textContent=ayarlar.appAdi||'DiyetTakip';
   if(e('app-slogan-gorsel'))e('app-slogan-gorsel').textContent=ayarlar.slogan||'Beslenme takip programı';
   if(e('ayar-admin-adi'))e('ayar-admin-adi').value=ayarlar.adminAdi;
   if(e('ayar-ana-renk'))e('ayar-ana-renk').value=ayarlar.anaRenk;
   if(e('ayar-koyu-renk'))e('ayar-koyu-renk').value=ayarlar.koyuRenk;
   if(e('ayar-acik-renk'))e('ayar-acik-renk').value=ayarlar.acikRenk;
+  if(e('ayar-baslik-renk'))e('ayar-baslik-renk').value=ayarlar.baslikRenk||'#555555';
   if(e('ayar-app-adi'))e('ayar-app-adi').value=ayarlar.appAdi;
   if(e('ayar-slogan'))e('ayar-slogan').value=ayarlar.slogan;
   if(e('ayar-eposta'))e('ayar-eposta').value=ayarlar.adminEposta||'';
@@ -2211,6 +2217,7 @@ function renkGuncelle(deg,val) {
   if(deg==='--renk-ana')ayarlar.anaRenk=val;
   if(deg==='--renk-ana-koyu')ayarlar.koyuRenk=val;
   if(deg==='--renk-ana-acik')ayarlar.acikRenk=val;
+  if(deg==='--renk-baslik-yazi')ayarlar.baslikRenk=val;
 }
 function appAdiBilgisiGuncelle(){const v=e('ayar-app-adi').value;e('app-adi-gorsel').textContent=v||'DiyetTakip';ayarlar.appAdi=v;}
 function sloganGuncelle(){const v=e('ayar-slogan').value;e('app-slogan-gorsel').textContent=v||'Beslenme takip programı';ayarlar.slogan=v;}
