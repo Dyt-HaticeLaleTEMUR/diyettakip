@@ -54,9 +54,9 @@
 }
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 html, body { height: 100%; overflow: hidden; background: #111; }
-body { font-family: var(--font); color: var(--renk-metin); }
+body { font-family: var(--font); color: var(--renk-metin); background: var(--renk-bg,#f8fffe); }
 #app { max-width: 430px; height: 100dvh; margin: 0 auto; background: var(--renk-bg); position: relative; overflow: hidden; display: flex; flex-direction: column; }
-.ekran { display: none; flex-direction: column; height: 100%; overflow: hidden; }
+.ekran { display: none; flex-direction: column; height: 100%; overflow: hidden; background: var(--renk-bg,#f8fffe); }
 .ekran.aktif { display: flex; }
 .status-bar { background: var(--renk-ana-koyu); color: white; font-size: 11px; padding: 6px 20px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
 .header { background: linear-gradient(135deg, var(--renk-ana) 0%, var(--renk-ana-koyu) 100%); color: var(--renk-header-yazi,white); padding: 14px 16px; display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
@@ -70,15 +70,15 @@ body { font-family: var(--font); color: var(--renk-metin); }
 .logo-alani p { color: rgba(255,255,255,0.75); font-size: 13px; }
 .giris-form { padding: 24px 20px; flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; background: var(--renk-giris-bg,#ffffff); color: var(--renk-giris-yazi,#1a1a1a); }
 .rol-sekim { display: flex; background: var(--renk-sinir); border-radius: var(--radius-sm); padding: 3px; }
-.rol-btn { flex: 1; padding: 9px; border: none; background: none; border-radius: 8px; font-size: 14px; cursor: pointer; color: var(--renk-metin2); font-weight: 500; transition: all 0.2s; }
-.rol-btn.aktif { background: var(--renk-ana); color: white; }
-.alan-etiket { font-size: 12px; color: var(--renk-metin2); margin-bottom: 5px; font-weight: 500; }
-.giris-alani { width: 100%; padding: 13px 14px; border: 1.5px solid var(--renk-sinir); border-radius: var(--radius-sm); font-size: 15px; background: white; color: var(--renk-metin); outline: none; transition: border-color 0.2s; }
+.rol-btn { flex: 1; padding: 9px; border: none; background: none; border-radius: 8px; font-size: 14px; cursor: pointer; color: var(--renk-giris-yazi,var(--renk-metin2)); font-weight: 500; transition: all 0.2s; }
+.rol-btn.aktif { background: var(--renk-ana); color: var(--renk-btn-yazi,white); }
+.alan-etiket { font-size: 12px; color: var(--renk-giris-yazi,var(--renk-metin2)); margin-bottom: 5px; font-weight: 500; }
+.giris-alani { width: 100%; padding: 13px 14px; border: 1.5px solid var(--renk-sinir); border-radius: var(--radius-sm); font-size: 15px; background: var(--renk-kart,white); color: var(--renk-giris-yazi,var(--renk-metin)); outline: none; transition: border-color 0.2s; }
 .giris-alani:focus { border-color: var(--renk-ana); }
 .btn-ana { background: var(--renk-ana); color: var(--renk-btn-yazi,white); border: none; border-radius: var(--radius); padding: 15px; font-size: 16px; font-weight: 600; cursor: pointer; width: 100%; transition: opacity 0.15s, transform 0.1s; }
 .btn-ana:active { opacity: 0.85; transform: scale(0.98); }
 .hata-mesaj { color: var(--renk-tehlike); font-size: 13px; text-align: center; min-height: 18px; }
-.danisan-kart { background: var(--renk-kart); border: 1.5px solid var(--renk-sinir); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: border-color 0.2s, transform 0.1s; }
+.danisan-kart { background: var(--renk-kart,white); border: 1.5px solid var(--renk-sinir); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: border-color 0.2s, transform 0.1s; }
 .danisan-kart:active { transform: scale(0.98); border-color: var(--renk-vurgu); }
 .avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--renk-ana-acik); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; color: var(--renk-ana); flex-shrink: 0; }
 .danisan-bilgi { flex: 1; min-width: 0; }
@@ -139,7 +139,7 @@ body { font-family: var(--font); color: var(--renk-metin); }
 .bugun-etiketi { font-size: 8px; background: var(--renk-ana); color: white; padding: 1px 4px; border-radius: 3px; margin-left: 2px; }
 
 /* ===== TAKİP BÖLÜMÜ ===== */
-.takip-bolum { background: white; border-top: 1.5px solid var(--renk-sinir); padding: 8px 14px; flex-shrink: 0; }
+.takip-bolum { background: var(--renk-kart,white); border-top: 1.5px solid var(--renk-sinir); padding: 8px 14px; flex-shrink: 0; }
 .takip-baslik { font-size: 12px; font-weight: 600; margin-bottom: 6px; color: var(--renk-metin2); }
 .takip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
 .takip-ogesi { background: var(--renk-bg); border: 1px solid var(--renk-sinir); border-radius: 8px; padding: 5px 8px; display: flex; align-items: center; gap: 5px; min-width: 0; }
@@ -149,7 +149,7 @@ body { font-family: var(--font); color: var(--renk-metin); }
 .btn-kk:active { background: var(--renk-ana-acik); }
 .modal-arka { display: none; position: absolute; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: flex-end; }
 .modal-arka.acik { display: flex; }
-.modal-panel { background: white; border-radius: 24px 24px 0 0; padding: 20px 20px 32px; width: 100%; max-height: 92%; overflow-y: auto; animation: yukariCik 0.25s ease; }
+.modal-panel { background: var(--renk-kart,white); border-radius: 24px 24px 0 0; padding: 20px 20px 32px; width: 100%; max-height: 92%; overflow-y: auto; animation: yukariCik 0.25s ease; }
 @keyframes yukariCik { from { transform: translateY(100%); } to { transform: translateY(0); } }
 .modal-tutamak { width: 40px; height: 4px; background: var(--renk-sinir); border-radius: 2px; margin: 0 auto 18px; }
 .modal-baslik { font-size: 18px; font-weight: 700; margin-bottom: 18px; }
@@ -159,11 +159,11 @@ body { font-family: var(--font); color: var(--renk-metin); }
 .nav-ikon { font-size: 20px; }
 .nav-etiket { font-size: 10px; color: var(--renk-altnav-yazi, var(--renk-metin2)); }
 .nav-btn.aktif .nav-etiket { color: var(--renk-ana); font-weight: 600; }
-.ayar-bolum { background: white; border-radius: var(--radius); border: 1.5px solid var(--renk-sinir); margin-bottom: 14px; overflow: hidden; }
+.ayar-bolum { background: var(--renk-kart,white); border-radius: var(--radius); border: 1.5px solid var(--renk-sinir); margin-bottom: 14px; overflow: hidden; }
 .ayar-baslik { padding: 12px 16px; background: var(--renk-ana-acik); font-size: 12px; font-weight: 700; color: var(--renk-baslik-yazi, #555555); text-transform: uppercase; letter-spacing: 0.5px; }
-.ayar-satir { display: flex; align-items: center; padding: 13px 16px; border-bottom: 1px solid var(--renk-sinir); gap: 12px; }
+.ayar-satir { display: flex; align-items: center; padding: 13px 16px; border-bottom: 1px solid var(--renk-sinir); gap: 12px; background: var(--renk-kart,white); }
 .ayar-satir:last-child { border-bottom: none; }
-.ayar-etiket { font-size: 14px; flex: 1; }
+.ayar-etiket { font-size: 14px; flex: 1; color: var(--renk-metin,#1a1a1a); }
 .ayar-aciklama { font-size: 11px; color: var(--renk-metin2); margin-top: 2px; }
 .renk-sec { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--renk-sinir); cursor: pointer; padding: 0; }
 .kucuk-input { padding: 8px 12px; border: 1.5px solid var(--renk-sinir); border-radius: 8px; font-size: 13px; width: 150px; outline: none; color: var(--renk-metin); }
@@ -527,122 +527,133 @@ body { font-family: var(--font); color: var(--renk-metin); }
         <div class="ayar-baslik">🎨 Uygulama Görünümü</div>
 
         <!-- ANA RENKLER -->
-        <div style="padding:10px 16px 4px;font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.5px;">Ana Renkler</div>
+        <div style="padding:10px 16px 4px;font-size:11px;font-weight:700;color:var(--renk-metin2);text-transform:uppercase;letter-spacing:0.5px;">Ana Renkler</div>
         <div class="ayar-satir">
           <div><div class="ayar-etiket">Ana Renk</div><div class="ayar-aciklama">Header, butonlar — #2d6a4f</div></div>
           <div style="display:flex;align-items:center;gap:6px;">
-            <input type="text" id="txt-ana-renk" value="#2d6a4f" maxlength="7" oninput="renkKodGuncelle('--renk-ana','ana',this.value)" style="width:72px;padding:5px 7px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:12px;font-family:monospace;"/>
+            <input type="text" id="txt-ana-renk" value="#2d6a4f" maxlength="7" oninput="renkKodGuncelle('--renk-ana','ana',this.value)" style="width:72px;padding:5px 7px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:12px;font-family:monospace;background:var(--renk-kart,white);color:var(--renk-metin)"/>
             <input type="color" class="renk-sec" id="ayar-ana-renk" value="#2d6a4f" oninput="renkGuncelle('--renk-ana','ana',this.value)"/>
           </div>
         </div>
         <div class="ayar-satir">
           <div><div class="ayar-etiket">Koyu Ton</div><div class="ayar-aciklama">Header alt tonu — #1b4332</div></div>
           <div style="display:flex;align-items:center;gap:6px;">
-            <input type="text" id="txt-koyu-renk" value="#1b4332" maxlength="7" oninput="renkKodGuncelle('--renk-ana-koyu','koyu',this.value)" style="width:72px;padding:5px 7px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:12px;font-family:monospace;"/>
+            <input type="text" id="txt-koyu-renk" value="#1b4332" maxlength="7" oninput="renkKodGuncelle('--renk-ana-koyu','koyu',this.value)" style="width:72px;padding:5px 7px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:12px;font-family:monospace;background:var(--renk-kart,white);color:var(--renk-metin)"/>
             <input type="color" class="renk-sec" id="ayar-koyu-renk" value="#1b4332" oninput="renkGuncelle('--renk-ana-koyu','koyu',this.value)"/>
           </div>
         </div>
         <div class="ayar-satir">
           <div><div class="ayar-etiket">Açık Ton</div><div class="ayar-aciklama">Bölüm arka planı — #d8f3dc</div></div>
           <div style="display:flex;align-items:center;gap:6px;">
-            <input type="text" id="txt-acik-renk" value="#d8f3dc" maxlength="7" oninput="renkKodGuncelle('--renk-ana-acik','acik',this.value)" style="width:72px;padding:5px 7px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:12px;font-family:monospace;"/>
+            <input type="text" id="txt-acik-renk" value="#d8f3dc" maxlength="7" oninput="renkKodGuncelle('--renk-ana-acik','acik',this.value)" style="width:72px;padding:5px 7px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:12px;font-family:monospace;background:var(--renk-kart,white);color:var(--renk-metin)"/>
             <input type="color" class="renk-sec" id="ayar-acik-renk" value="#d8f3dc" oninput="renkGuncelle('--renk-ana-acik','acik',this.value)"/>
           </div>
         </div>
 
         <!-- GİRİŞ EKRANI -->
-        <div style="padding:10px 16px 4px;font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.5px;">Giriş Ekranı (Alt Alan)</div>
+        <div style="padding:10px 16px 4px;font-size:11px;font-weight:700;color:var(--renk-metin2);text-transform:uppercase;letter-spacing:0.5px;">Giriş Ekranı (Alt Alan)</div>
         <div class="ayar-satir">
           <div><div class="ayar-etiket">Arka Plan</div><div class="ayar-aciklama">Form alanı arka planı — #ffffff</div></div>
           <div style="display:flex;align-items:center;gap:6px;">
-            <input type="text" id="txt-giris-bg" value="#ffffff" maxlength="7" oninput="renkKodGuncelle('--renk-giris-bg','girisBg',this.value)" style="width:72px;padding:5px 7px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:12px;font-family:monospace;"/>
+            <input type="text" id="txt-giris-bg" value="#ffffff" maxlength="7" oninput="renkKodGuncelle('--renk-giris-bg','girisBg',this.value)" style="width:72px;padding:5px 7px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:12px;font-family:monospace;background:var(--renk-kart,white);color:var(--renk-metin)"/>
             <input type="color" class="renk-sec" id="ayar-giris-bg" value="#ffffff" oninput="renkGuncelle('--renk-giris-bg','girisBg',this.value)"/>
           </div>
         </div>
         <div class="ayar-satir">
           <div><div class="ayar-etiket">Yazı Rengi</div><div class="ayar-aciklama">Giriş formu yazıları — #1a1a1a</div></div>
           <div style="display:flex;align-items:center;gap:6px;">
-            <input type="text" id="txt-giris-yazi" value="#1a1a1a" maxlength="7" oninput="renkKodGuncelle('--renk-giris-yazi','girisYazi',this.value)" style="width:72px;padding:5px 7px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:12px;font-family:monospace;"/>
+            <input type="text" id="txt-giris-yazi" value="#1a1a1a" maxlength="7" oninput="renkKodGuncelle('--renk-giris-yazi','girisYazi',this.value)" style="width:72px;padding:5px 7px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:12px;font-family:monospace;background:var(--renk-kart,white);color:var(--renk-metin)"/>
             <input type="color" class="renk-sec" id="ayar-giris-yazi" value="#1a1a1a" oninput="renkGuncelle('--renk-giris-yazi','girisYazi',this.value)"/>
           </div>
         </div>
 
         <!-- HEADER -->
-        <div style="padding:10px 16px 4px;font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.5px;">Header Yazısı</div>
+        <div style="padding:10px 16px 4px;font-size:11px;font-weight:700;color:var(--renk-metin2);text-transform:uppercase;letter-spacing:0.5px;">Header Yazısı</div>
         <div class="ayar-satir">
           <div><div class="ayar-etiket">Header Yazı Rengi</div><div class="ayar-aciklama">Başlık ve ikon rengi — #ffffff</div></div>
           <div style="display:flex;align-items:center;gap:6px;">
-            <input type="text" id="txt-header-yazi" value="#ffffff" maxlength="7" oninput="renkKodGuncelle('--renk-header-yazi','headerYazi',this.value)" style="width:72px;padding:5px 7px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:12px;font-family:monospace;"/>
+            <input type="text" id="txt-header-yazi" value="#ffffff" maxlength="7" oninput="renkKodGuncelle('--renk-header-yazi','headerYazi',this.value)" style="width:72px;padding:5px 7px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:12px;font-family:monospace;background:var(--renk-kart,white);color:var(--renk-metin)"/>
             <input type="color" class="renk-sec" id="ayar-header-yazi" value="#ffffff" oninput="renkGuncelle('--renk-header-yazi','headerYazi',this.value)"/>
           </div>
         </div>
 
         <!-- BUTON -->
-        <div style="padding:10px 16px 4px;font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.5px;">Butonlar</div>
+        <div style="padding:10px 16px 4px;font-size:11px;font-weight:700;color:var(--renk-metin2);text-transform:uppercase;letter-spacing:0.5px;">Butonlar</div>
         <div class="ayar-satir">
           <div><div class="ayar-etiket">Buton Yazı Rengi</div><div class="ayar-aciklama">Ana buton yazısı — #ffffff</div></div>
           <div style="display:flex;align-items:center;gap:6px;">
-            <input type="text" id="txt-btn-yazi" value="#ffffff" maxlength="7" oninput="renkKodGuncelle('--renk-btn-yazi','btnYazi',this.value)" style="width:72px;padding:5px 7px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:12px;font-family:monospace;"/>
+            <input type="text" id="txt-btn-yazi" value="#ffffff" maxlength="7" oninput="renkKodGuncelle('--renk-btn-yazi','btnYazi',this.value)" style="width:72px;padding:5px 7px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:12px;font-family:monospace;background:var(--renk-kart,white);color:var(--renk-metin)"/>
             <input type="color" class="renk-sec" id="ayar-btn-yazi" value="#ffffff" oninput="renkGuncelle('--renk-btn-yazi','btnYazi',this.value)"/>
           </div>
         </div>
 
         <!-- ALT MENÜ -->
-        <div style="padding:10px 16px 4px;font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.5px;">Alt Menü</div>
+        <div style="padding:10px 16px 4px;font-size:11px;font-weight:700;color:var(--renk-metin2);text-transform:uppercase;letter-spacing:0.5px;">Alt Menü</div>
         <div class="ayar-satir">
           <div><div class="ayar-etiket">Alt Menü Arka Plan</div><div class="ayar-aciklama">Listem/Değişim/Tablo menüsü — #ffffff</div></div>
           <div style="display:flex;align-items:center;gap:6px;">
-            <input type="text" id="txt-altnav-bg" value="#ffffff" maxlength="7" oninput="renkKodGuncelle('--renk-altnav-bg','altnavBg',this.value)" style="width:72px;padding:5px 7px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:12px;font-family:monospace;"/>
+            <input type="text" id="txt-altnav-bg" value="#ffffff" maxlength="7" oninput="renkKodGuncelle('--renk-altnav-bg','altnavBg',this.value)" style="width:72px;padding:5px 7px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:12px;font-family:monospace;background:var(--renk-kart,white);color:var(--renk-metin)"/>
             <input type="color" class="renk-sec" id="ayar-altnav-bg" value="#ffffff" oninput="renkGuncelle('--renk-altnav-bg','altnavBg',this.value)"/>
           </div>
         </div>
         <div class="ayar-satir">
           <div><div class="ayar-etiket">Alt Menü Yazı Rengi</div><div class="ayar-aciklama">Menü etiket yazıları — #6b7280</div></div>
           <div style="display:flex;align-items:center;gap:6px;">
-            <input type="text" id="txt-altnav-yazi" value="#6b7280" maxlength="7" oninput="renkKodGuncelle('--renk-altnav-yazi','altnavYazi',this.value)" style="width:72px;padding:5px 7px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:12px;font-family:monospace;"/>
+            <input type="text" id="txt-altnav-yazi" value="#6b7280" maxlength="7" oninput="renkKodGuncelle('--renk-altnav-yazi','altnavYazi',this.value)" style="width:72px;padding:5px 7px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:12px;font-family:monospace;background:var(--renk-kart,white);color:var(--renk-metin)"/>
             <input type="color" class="renk-sec" id="ayar-altnav-yazi" value="#6b7280" oninput="renkGuncelle('--renk-altnav-yazi','altnavYazi',this.value)"/>
           </div>
         </div>
 
         <!-- GENEL METİN -->
-        <div style="padding:10px 16px 4px;font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.5px;">Genel Metin</div>
+        <div style="padding:10px 16px 4px;font-size:11px;font-weight:700;color:var(--renk-metin2);text-transform:uppercase;letter-spacing:0.5px;">Genel Metin</div>
         <div class="ayar-satir">
           <div><div class="ayar-etiket">Ana Metin</div><div class="ayar-aciklama">Tüm yazılar — #1a1a1a</div></div>
           <div style="display:flex;align-items:center;gap:6px;">
-            <input type="text" id="txt-metin" value="#1a1a1a" maxlength="7" oninput="renkKodGuncelle('--renk-metin','metin',this.value)" style="width:72px;padding:5px 7px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:12px;font-family:monospace;"/>
+            <input type="text" id="txt-metin" value="#1a1a1a" maxlength="7" oninput="renkKodGuncelle('--renk-metin','metin',this.value)" style="width:72px;padding:5px 7px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:12px;font-family:monospace;background:var(--renk-kart,white);color:var(--renk-metin)"/>
             <input type="color" class="renk-sec" id="ayar-metin" value="#1a1a1a" oninput="renkGuncelle('--renk-metin','metin',this.value)"/>
           </div>
         </div>
         <div class="ayar-satir">
           <div><div class="ayar-etiket">İkincil Metin</div><div class="ayar-aciklama">Alt yazılar, açıklamalar — #6b7280</div></div>
           <div style="display:flex;align-items:center;gap:6px;">
-            <input type="text" id="txt-metin2" value="#6b7280" maxlength="7" oninput="renkKodGuncelle('--renk-metin2','metin2',this.value)" style="width:72px;padding:5px 7px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:12px;font-family:monospace;"/>
+            <input type="text" id="txt-metin2" value="#6b7280" maxlength="7" oninput="renkKodGuncelle('--renk-metin2','metin2',this.value)" style="width:72px;padding:5px 7px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:12px;font-family:monospace;background:var(--renk-kart,white);color:var(--renk-metin)"/>
             <input type="color" class="renk-sec" id="ayar-metin2" value="#6b7280" oninput="renkGuncelle('--renk-metin2','metin2',this.value)"/>
           </div>
         </div>
         <div class="ayar-satir">
           <div><div class="ayar-etiket">Bölüm Başlığı</div><div class="ayar-aciklama">Hesap bilgileri vb. başlıklar — #555555</div></div>
           <div style="display:flex;align-items:center;gap:6px;">
-            <input type="text" id="txt-baslik-renk" value="#555555" maxlength="7" oninput="renkKodGuncelle('--renk-baslik-yazi','baslikRenk',this.value)" style="width:72px;padding:5px 7px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:12px;font-family:monospace;"/>
+            <input type="text" id="txt-baslik-renk" value="#555555" maxlength="7" oninput="renkKodGuncelle('--renk-baslik-yazi','baslikRenk',this.value)" style="width:72px;padding:5px 7px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:12px;font-family:monospace;background:var(--renk-kart,white);color:var(--renk-metin)"/>
             <input type="color" class="renk-sec" id="ayar-baslik-renk" value="#555555" oninput="renkGuncelle('--renk-baslik-yazi','baslikRenk',this.value)"/>
           </div>
         </div>
 
         <!-- ARKA PLAN -->
-        <div style="padding:10px 16px 4px;font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.5px;">Arka Plan</div>
+        <div style="padding:10px 16px 4px;font-size:11px;font-weight:700;color:var(--renk-metin2);text-transform:uppercase;letter-spacing:0.5px;">Arka Plan</div>
         <div class="ayar-satir">
           <div><div class="ayar-etiket">Sayfa Arka Planı</div><div class="ayar-aciklama">Genel arka plan — #f8fffe</div></div>
           <div style="display:flex;align-items:center;gap:6px;">
-            <input type="text" id="txt-bg" value="#f8fffe" maxlength="7" oninput="renkKodGuncelle('--renk-bg','bg',this.value)" style="width:72px;padding:5px 7px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:12px;font-family:monospace;"/>
+            <input type="text" id="txt-bg" value="#f8fffe" maxlength="7" oninput="renkKodGuncelle('--renk-bg','bg',this.value)" style="width:72px;padding:5px 7px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:12px;font-family:monospace;background:var(--renk-kart,white);color:var(--renk-metin)"/>
             <input type="color" class="renk-sec" id="ayar-bg" value="#f8fffe" oninput="renkGuncelle('--renk-bg','bg',this.value)"/>
           </div>
         </div>
         <div class="ayar-satir">
           <div><div class="ayar-etiket">Kart Arka Planı</div><div class="ayar-aciklama">Danışan kartları vb. — #ffffff</div></div>
           <div style="display:flex;align-items:center;gap:6px;">
-            <input type="text" id="txt-kart-bg" value="#ffffff" maxlength="7" oninput="renkKodGuncelle('--renk-kart','kartBg',this.value)" style="width:72px;padding:5px 7px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:12px;font-family:monospace;"/>
+            <input type="text" id="txt-kart-bg" value="#ffffff" maxlength="7" oninput="renkKodGuncelle('--renk-kart','kartBg',this.value)" style="width:72px;padding:5px 7px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:12px;font-family:monospace;background:var(--renk-kart,white);color:var(--renk-metin)"/>
             <input type="color" class="renk-sec" id="ayar-kart-bg" value="#ffffff" oninput="renkGuncelle('--renk-kart','kartBg',this.value)"/>
           </div>
+        </div>
+
+        <!-- UYGULAMA ADI -->
+        <div style="padding:10px 16px 4px;font-size:11px;font-weight:700;color:var(--renk-metin2);text-transform:uppercase;letter-spacing:0.5px;">Uygulama Bilgileri</div>
+        <div class="ayar-satir">
+          <div><div class="ayar-etiket">Uygulama Adı</div></div>
+          <input type="text" class="kucuk-input" id="ayar-app-adi" placeholder="DiyetTakip" oninput="appAdiBilgisiGuncelle()" />
+        </div>
+        <div class="ayar-satir">
+          <div><div class="ayar-etiket">Slogan</div></div>
+          <input type="text" class="kucuk-input" id="ayar-slogan" placeholder="Beslenme takip programı" oninput="sloganGuncelle()" />
         </div>
 
         <div style="padding:14px;">
