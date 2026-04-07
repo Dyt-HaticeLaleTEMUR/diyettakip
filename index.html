@@ -456,7 +456,7 @@ body { font-family: var(--font); color: var(--renk-metin); background: var(--ren
     <div class="status-bar"><span id="saat-listem">9:41</span><span style="font-size:9px;font-style:italic;opacity:0.85;">✦ Dyt. Hatice Lale TEMUR ✦</span></div>
     <div class="header">
       <div class="header-ikon">📋</div>
-      <h1 id="listem-baslik" style="flex:1;">Bu Haftanın Listesi</h1>
+      <h1 id="listem-baslik" style="flex:1;color:var(--renk-listem-baslik,var(--renk-header-yazi,white));">Bu Haftanın Listesi</h1>
       <button class="geri-btn" onclick="cikisYap()" style="font-size:13px;">↩</button>
     </div>
     <div class="icerik" id="listem-icerik">
@@ -624,7 +624,21 @@ body { font-family: var(--font); color: var(--renk-metin); background: var(--ren
         </div>
 
         <!-- DANİŞAN LİSTESİ -->
-        <div style="padding:10px 16px 4px;font-size:11px;font-weight:700;color:var(--renk-metin2);text-transform:uppercase;letter-spacing:0.5px;">Danışan Listesi</div>
+        <div style="padding:10px 16px 4px;font-size:11px;font-weight:700;color:var(--renk-metin2);text-transform:uppercase;letter-spacing:0.5px;">Danışan Listesi & Listem</div>
+        <div class="ayar-satir">
+          <div><div class="ayar-etiket">Listem Başlık Yazısı</div><div class="ayar-aciklama">"Bu Haftanın Listesi" yazısı — #ffffff</div></div>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <input type="text" id="txt-listem-baslik" value="#ffffff" maxlength="7" oninput="renkKodGuncelle('--renk-listem-baslik','listemBaslik',this.value)" style="width:72px;padding:5px 7px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:12px;font-family:monospace;background:var(--renk-kart,white);color:var(--renk-metin)"/>
+            <input type="color" class="renk-sec" id="ayar-listem-baslik" value="#ffffff" oninput="renkGuncelle('--renk-listem-baslik','listemBaslik',this.value)"/>
+          </div>
+        </div>
+        <div class="ayar-satir">
+          <div><div class="ayar-etiket">Sınır Çizgisi Rengi</div><div class="ayar-aciklama">Kart ve alan kenarları — #e5e7eb</div></div>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <input type="text" id="txt-sinir" value="#e5e7eb" maxlength="7" oninput="renkKodGuncelle('--renk-sinir','sinir',this.value)" style="width:72px;padding:5px 7px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:12px;font-family:monospace;background:var(--renk-kart,white);color:var(--renk-metin)"/>
+            <input type="color" class="renk-sec" id="ayar-sinir" value="#e5e7eb" oninput="renkGuncelle('--renk-sinir','sinir',this.value)"/>
+          </div>
+        </div>
         <div class="ayar-satir">
           <div><div class="ayar-etiket">Rozet Arka Planı</div><div class="ayar-aciklama">Giriş sayısı rozeti arka planı</div></div>
           <div style="display:flex;align-items:center;gap:6px;">
@@ -1691,6 +1705,8 @@ function ayarlariUygula() {
   document.documentElement.style.setProperty('--renk-tablo-bugun-bg', ayarlar.tabloBugunBg||'#f0faf5');
   document.documentElement.style.setProperty('--renk-rozet-bg', ayarlar.rozetBg||ayarlar.acikRenk||'#d8f3dc');
   document.documentElement.style.setProperty('--renk-rozet-yazi', ayarlar.rozetYazi||ayarlar.anaRenk||'#2d6a4f');
+  document.documentElement.style.setProperty('--renk-listem-baslik', ayarlar.listemBaslik||'#ffffff');
+  document.documentElement.style.setProperty('--renk-sinir', ayarlar.sinir||'#e5e7eb');
   if(e('app-adi-gorsel'))e('app-adi-gorsel').textContent=ayarlar.appAdi||'DiyetTakip';
   if(e('app-slogan-gorsel'))e('app-slogan-gorsel').textContent=ayarlar.slogan||'Beslenme takip programı';
   if(e('ayar-admin-adi'))e('ayar-admin-adi').value=ayarlar.adminAdi;
@@ -1718,6 +1734,8 @@ function ayarlariUygula() {
     'ayar-tablo-bugun-bg': ayarlar.tabloBugunBg||'#f0faf5', 'txt-tablo-bugun-bg': ayarlar.tabloBugunBg||'#f0faf5',
     'ayar-rozet-bg': ayarlar.rozetBg||'#d8f3dc', 'txt-rozet-bg': ayarlar.rozetBg||'#d8f3dc',
     'ayar-rozet-yazi': ayarlar.rozetYazi||'#2d6a4f', 'txt-rozet-yazi': ayarlar.rozetYazi||'#2d6a4f',
+    'ayar-listem-baslik': ayarlar.listemBaslik||'#ffffff', 'txt-listem-baslik': ayarlar.listemBaslik||'#ffffff',
+    'ayar-sinir': ayarlar.sinir||'#e5e7eb', 'txt-sinir': ayarlar.sinir||'#e5e7eb',
   };
   Object.entries(renkMap).forEach(([id,val])=>{ const el=e(id); if(el)el.value=val; });
   if(e('ayar-app-adi'))e('ayar-app-adi').value=ayarlar.appAdi;
@@ -2473,7 +2491,8 @@ function renkKodGuncelle(deg, key, val) {
     '--renk-logo-baslik':'ayar-logo-baslik','--renk-logo-slogan':'ayar-logo-slogan','--renk-logo-dyt':'ayar-logo-dyt',
     '--renk-tablo-baslik-yazi':'ayar-tablo-baslik-yazi','--renk-tablo-gun-yazi':'ayar-tablo-gun-yazi',
     '--renk-tablo-veri-yazi':'ayar-tablo-veri-yazi','--renk-tablo-bugun-bg':'ayar-tablo-bugun-bg',
-    '--renk-rozet-bg':'ayar-rozet-bg','--renk-rozet-yazi':'ayar-rozet-yazi'
+    '--renk-rozet-bg':'ayar-rozet-bg','--renk-rozet-yazi':'ayar-rozet-yazi',
+    '--renk-listem-baslik':'ayar-listem-baslik','--renk-sinir':'ayar-sinir'
   };
   const colorInput = document.getElementById(idMap[deg]);
   if(colorInput) colorInput.value = val;
@@ -2491,7 +2510,8 @@ function renkGuncelle(deg, key, val) {
     '--renk-logo-baslik':'txt-logo-baslik','--renk-logo-slogan':'txt-logo-slogan','--renk-logo-dyt':'txt-logo-dyt',
     '--renk-tablo-baslik-yazi':'txt-tablo-baslik-yazi','--renk-tablo-gun-yazi':'txt-tablo-gun-yazi',
     '--renk-tablo-veri-yazi':'txt-tablo-veri-yazi','--renk-tablo-bugun-bg':'txt-tablo-bugun-bg',
-    '--renk-rozet-bg':'txt-rozet-bg','--renk-rozet-yazi':'txt-rozet-yazi'
+    '--renk-rozet-bg':'txt-rozet-bg','--renk-rozet-yazi':'txt-rozet-yazi',
+    '--renk-listem-baslik':'txt-listem-baslik','--renk-sinir':'txt-sinir'
   };
   const txtId = txtMap[deg];
   if(txtId && document.getElementById(txtId)) document.getElementById(txtId).value = val;
@@ -2508,7 +2528,8 @@ function renkAyarlariKaydet(deg, key, val) {
     '--renk-logo-baslik':'logoBaslik','--renk-logo-slogan':'logoSlogan','--renk-logo-dyt':'logoDyt',
     '--renk-tablo-baslik-yazi':'tabloBaslikYazi','--renk-tablo-gun-yazi':'tabloGunYazi',
     '--renk-tablo-veri-yazi':'tabloVeriYazi','--renk-tablo-bugun-bg':'tabloBugunBg',
-    '--renk-rozet-bg':'rozetBg','--renk-rozet-yazi':'rozetYazi'
+    '--renk-rozet-bg':'rozetBg','--renk-rozet-yazi':'rozetYazi',
+    '--renk-listem-baslik':'listemBaslik','--renk-sinir':'sinir'
   };
   const k = keyMap[deg] || key;
   if(k) ayarlar[k] = val;
