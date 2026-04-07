@@ -414,26 +414,19 @@ body { font-family: var(--font); color: var(--renk-metin); background: var(--ren
       <h1 id="danisan-karsilama" style="flex:1;">Tablom</h1>
       <button class="geri-btn" onclick="cikisYap()" style="font-size:13px;">↩</button>
     </div>
-    <div style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;">
-      <div style="padding:6px 14px 4px;">
-        <div class="tablo-sarici">
-          <table class="diyet-tablo" id="danisan-tablo"></table>
-        </div>
+    <div class="icerik" style="padding:8px 14px 4px;">
+      <div id="hedef-bolum" style="margin-bottom:8px;display:none;">
+        <div class="takip-baslik" style="margin-bottom:4px;">🎯 Günlük Hedefler</div>
+        <div class="hedef-grid" id="hedef-grid"></div>
       </div>
-      <div class="takip-bolum" style="padding:8px 14px;">
-        <div id="hedef-bolum" style="margin-bottom:5px;display:none;">
-          <div class="takip-baslik" style="margin-bottom:4px;">🎯 Günlük Hedefler</div>
-          <div class="hedef-grid" id="hedef-grid"></div>
-        </div>
-        <div class="takip-baslik">📝 Bugün ekle / çıkar</div>
-        <div class="takip-grid" id="takip-grid"></div>
-        <div style="height:8px;"></div>
-      </div>
+      <div class="takip-baslik">📝 Bugün ekle / çıkar</div>
+      <div class="takip-grid" id="takip-grid"></div>
     </div>
     <div class="alt-nav">
-      <button class="nav-btn" onclick="altNavSec(0)"><span class="nav-ikon">📋</span><span class="nav-etiket">Listem</span></button>
+      <button class="nav-btn aktif" onclick="altNavSec(0)"><span class="nav-ikon">📋</span><span class="nav-etiket">Listem</span></button>
       <button class="nav-btn" onclick="altNavSec(1)"><span class="nav-ikon">🔄</span><span class="nav-etiket">Değişim</span></button>
-      <button class="nav-btn aktif" onclick="altNavSec(3)"><span class="nav-ikon">📊</span><span class="nav-etiket">Tablo</span></button>
+      <button class="nav-btn" onclick="altNavSec(3)"><span class="nav-ikon">📊</span><span class="nav-etiket">Tablo</span></button>
+      <button class="nav-btn" onclick="altNavSec(4)"><span class="nav-ikon">📅</span><span class="nav-etiket">Haftalık</span></button>
       <button class="nav-btn" onclick="altNavSec(2)"><span class="nav-ikon">👤</span><span class="nav-etiket">Profilim</span></button>
     </div>
   </div>
@@ -450,6 +443,28 @@ body { font-family: var(--font); color: var(--renk-metin); background: var(--ren
       <button class="nav-btn" onclick="altNavSec(0)"><span class="nav-ikon">📋</span><span class="nav-etiket">Listem</span></button>
       <button class="nav-btn aktif" onclick="altNavSec(1)"><span class="nav-ikon">🔄</span><span class="nav-etiket">Değişim</span></button>
       <button class="nav-btn" onclick="altNavSec(3)"><span class="nav-ikon">📊</span><span class="nav-etiket">Tablo</span></button>
+      <button class="nav-btn" onclick="altNavSec(4)"><span class="nav-ikon">📅</span><span class="nav-etiket">Haftalık</span></button>
+      <button class="nav-btn" onclick="altNavSec(2)"><span class="nav-ikon">👤</span><span class="nav-etiket">Profilim</span></button>
+    </div>
+  </div>
+
+  <!-- HAFTALIK TABLO -->
+  <div class="ekran" id="ekran-haftalik">
+    <div class="status-bar"><span id="saat-haftalik">9:41</span><span style="font-size:9px;font-style:italic;opacity:0.85;">✦ Dyt. Hatice Lale TEMUR ✦</span></div>
+    <div class="header">
+      <div class="header-ikon">📅</div>
+      <h1>Haftalık Tablo</h1>
+    </div>
+    <div class="icerik" style="padding:10px 14px 4px;">
+      <div class="tablo-sarici">
+        <table class="diyet-tablo" id="danisan-tablo"></table>
+      </div>
+    </div>
+    <div class="alt-nav">
+      <button class="nav-btn" onclick="altNavSec(0)"><span class="nav-ikon">📋</span><span class="nav-etiket">Listem</span></button>
+      <button class="nav-btn" onclick="altNavSec(1)"><span class="nav-ikon">🔄</span><span class="nav-etiket">Değişim</span></button>
+      <button class="nav-btn" onclick="altNavSec(3)"><span class="nav-ikon">📊</span><span class="nav-etiket">Tablo</span></button>
+      <button class="nav-btn aktif" onclick="altNavSec(4)"><span class="nav-ikon">📅</span><span class="nav-etiket">Haftalık</span></button>
       <button class="nav-btn" onclick="altNavSec(2)"><span class="nav-ikon">👤</span><span class="nav-etiket">Profilim</span></button>
     </div>
   </div>
@@ -469,6 +484,7 @@ body { font-family: var(--font); color: var(--renk-metin); background: var(--ren
       <button class="nav-btn aktif" onclick="altNavSec(0)"><span class="nav-ikon">📋</span><span class="nav-etiket">Listem</span></button>
       <button class="nav-btn" onclick="altNavSec(1)"><span class="nav-ikon">🔄</span><span class="nav-etiket">Değişim</span></button>
       <button class="nav-btn" onclick="altNavSec(3)"><span class="nav-ikon">📊</span><span class="nav-etiket">Tablo</span></button>
+      <button class="nav-btn" onclick="altNavSec(4)"><span class="nav-ikon">📅</span><span class="nav-etiket">Haftalık</span></button>
       <button class="nav-btn" onclick="altNavSec(2)"><span class="nav-ikon">👤</span><span class="nav-etiket">Profilim</span></button>
     </div>
   </div>
@@ -513,6 +529,7 @@ body { font-family: var(--font); color: var(--renk-metin); background: var(--ren
       <button class="nav-btn" onclick="altNavSec(0)"><span class="nav-ikon">📋</span><span class="nav-etiket">Listem</span></button>
       <button class="nav-btn" onclick="altNavSec(1)"><span class="nav-ikon">🔄</span><span class="nav-etiket">Değişim</span></button>
       <button class="nav-btn" onclick="altNavSec(3)"><span class="nav-ikon">📊</span><span class="nav-etiket">Tablo</span></button>
+      <button class="nav-btn" onclick="altNavSec(4)"><span class="nav-ikon">📅</span><span class="nav-etiket">Haftalık</span></button>
       <button class="nav-btn aktif" onclick="altNavSec(2)"><span class="nav-ikon">👤</span><span class="nav-etiket">Profilim</span></button>
     </div>
   </div>
@@ -960,7 +977,7 @@ function tabloyuGuncelle(tablo) { GUNLER.forEach(g=>{if(!tablo[g])tablo[g]={};BE
 
 function saatiGuncelle() {
   const s=new Date(), str=s.getHours().toString().padStart(2,'0')+':'+s.getMinutes().toString().padStart(2,'0');
-  ['saat','saat2','saat3','saat4','saat-listem','saat-degisim','saat-profil'].forEach(id=>{const el=e(id);if(el)el.textContent=str;});
+  ['saat','saat2','saat3','saat4','saat-listem','saat-degisim','saat-profil','saat-haftalik'].forEach(id=>{const el=e(id);if(el)el.textContent=str;});
 }
 
 // ============================================================
@@ -1794,7 +1811,7 @@ function danisanGirisYap(d) {
 }
 
 function altNavSec(idx) {
-  ['ekran-danisan','ekran-listem','ekran-degisim','ekran-profil'].forEach(ekranId=>{
+  ['ekran-danisan','ekran-listem','ekran-degisim','ekran-profil','ekran-haftalik'].forEach(ekranId=>{
     const ekran = e(ekranId);
     if(ekran) ekran.querySelectorAll('.nav-btn').forEach((b)=>b.classList.remove('aktif'));
   });
@@ -1803,6 +1820,7 @@ function altNavSec(idx) {
   else if(idx===1){ degisimEkraniOlustur(); e('ekran-degisim').classList.add('aktif'); }
   else if(idx===2){ profilDoldur(); e('ekran-profil').classList.add('aktif'); }
   else if(idx===3){ e('ekran-danisan').classList.add('aktif'); danisanTablosunuOlustur(); takipGridiOlustur(); hedefGridiOlustur(); }
+  else if(idx===4){ e('ekran-haftalik').classList.add('aktif'); danisanTablosunuOlustur(); }
 }
 function modalAc(id){e(id).classList.add('acik');}
 function modalKapat(id){e(id).classList.remove('acik');}
