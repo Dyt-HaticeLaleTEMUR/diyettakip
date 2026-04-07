@@ -1098,64 +1098,30 @@ let listeAktifDanisanId = null;
 // ============================================================
 // DANIŞAN RENK AYARLARI
 // ============================================================
-const DANISAN_RENK_VARSAYILAN = {
-  '--renk-ana':'#2d6a4f','--renk-ana-koyu':'#1b4332','--renk-ana-acik':'#d8f3dc',
-  '--renk-bg':'#f8fffe','--renk-kart':'#ffffff','--renk-altnav-bg':'#ffffff',
-  '--renk-metin':'#1a1a1a','--renk-metin2':'#6b7280','--renk-header-yazi':'#ffffff',
-  '--renk-altnav-yazi':'#6b7280','--renk-baslik-yazi':'#555555',
-  '--renk-tablo-baslik-yazi':'#ffffff','--renk-tablo-gun-yazi':'#1a1a1a',
-  '--renk-tablo-veri-yazi':'#6b7280','--renk-tablo-bugun-bg':'#f0faf5'
-};
-
-function danisanRenkSatiri(etiket, aciklama, degisken, id, varsayilan) {
-  return `<div class="ayar-satir">
-    <div><div class="ayar-etiket">${etiket}</div><div class="ayar-aciklama">${aciklama} — ${varsayilan}</div></div>
-    <div style="display:flex;align-items:center;gap:6px;">
-      <input type="text" id="txt-${id}" value="${varsayilan}" maxlength="7"
-        oninput="danisanRenkKodGuncelle('${degisken}','${id}',this.value)"
-        style="width:72px;padding:5px 7px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:12px;font-family:monospace;background:var(--renk-kart,white);color:var(--renk-metin)"/>
-      <input type="color" id="clr-${id}" value="${varsayilan}"
-        class="renk-sec" oninput="danisanRenkGuncelle('${degisken}','${id}',this.value)"/>
-    </div>
-  </div>`;
-}
-
-function danisanRenkKodGuncelle(deg, id, val) {
-  if(!/^#[0-9a-fA-F]{6}$/.test(val)) return;
-  document.documentElement.style.setProperty(deg, val);
-  const clr = e('clr-'+id); if(clr) clr.value = val;
-}
+const DANISAN_RENK_DEGISKENLERI = ['--renk-ana','--renk-ana-koyu','--renk-ana-acik'];
 
 function danisanRenkGuncelle(deg, id, val) {
   document.documentElement.style.setProperty(deg, val);
-  const txt = e('txt-'+id); if(txt) txt.value = val;
 }
 
 function danisanRenkleriKaydet() {
   const renkler = {};
-  Object.keys(DANISAN_RENK_VARSAYILAN).forEach(deg => {
+  DANISAN_RENK_DEGISKENLERI.forEach(deg => {
     renkler[deg] = getComputedStyle(document.documentElement).getPropertyValue(deg).trim();
   });
   localStorage.setItem('dt_danisan_renkler_' + mevcutDanisanId, JSON.stringify(renkler));
   const msg = e('profil-renk-mesaj');
-  if(msg){ msg.textContent='✓ Renkler kaydedildi!'; msg.style.color='var(--renk-ana)'; setTimeout(()=>msg.textContent='',2000); }
+  if(msg){ msg.textContent='✓ Kaydedildi!'; msg.style.color='var(--renk-ana)'; setTimeout(()=>msg.textContent='',2000); }
 }
 
 function danisanRenkleriSifirla() {
-  if(!confirm('Renk ayarlarınız sıfırlanacak ve diyetisyenin belirlediği renkler gelecek. Emin misiniz?')) return;
+  if(!confirm('Renkler diyetisyenin seçtiğine dönecek. Emin misiniz?')) return;
   localStorage.removeItem('dt_danisan_renkler_' + mevcutDanisanId);
-  // Admin/diyetisyen renklerini uygula
   ayarlariUygula();
-  // Input alanlarını güncelle
-  setTimeout(()=>{
-    const guncellenenRenkler = {};
-    Object.keys(DANISAN_RENK_VARSAYILAN).forEach(deg=>{
-      guncellenenRenkler[deg] = getComputedStyle(document.documentElement).getPropertyValue(deg).trim();
-    });
-    danisanRenkInputlariniGuncelle(guncellenenRenkler);
-  }, 100);
+  // Input renklerini güncelle
+  setTimeout(()=>{ profilDoldur(); }, 100);
   const msg = e('profil-renk-mesaj');
-  if(msg){ msg.textContent='↺ Diyetisyen renkleri yüklendi'; msg.style.color='var(--renk-metin2)'; setTimeout(()=>msg.textContent='',2500); }
+  if(msg){ msg.textContent='↺ Varsayılana döndürüldü'; msg.style.color='var(--renk-metin2)'; setTimeout(()=>msg.textContent='',2500); }
 }
 
 function danisanRenkleriYukle() {
@@ -1166,24 +1132,7 @@ function danisanRenkleriYukle() {
     Object.entries(renkler).forEach(([deg,val])=>{
       document.documentElement.style.setProperty(deg, val);
     });
-    danisanRenkInputlariniGuncelle(renkler);
   } catch(err){}
-}
-
-function danisanRenkInputlariniGuncelle(renkler) {
-  const idMap = {
-    '--renk-ana':'d-ana-renk','--renk-ana-koyu':'d-koyu-renk','--renk-ana-acik':'d-acik-renk',
-    '--renk-bg':'d-bg','--renk-kart':'d-kart','--renk-altnav-bg':'d-altnav-bg',
-    '--renk-metin':'d-metin','--renk-metin2':'d-metin2','--renk-header-yazi':'d-header-yazi',
-    '--renk-altnav-yazi':'d-altnav-yazi','--renk-baslik-yazi':'d-baslik-yazi',
-    '--renk-tablo-baslik-yazi':'d-tablo-baslik','--renk-tablo-gun-yazi':'d-tablo-gun',
-    '--renk-tablo-veri-yazi':'d-tablo-veri','--renk-tablo-bugun-bg':'d-tablo-bugun'
-  };
-  Object.entries(renkler).forEach(([deg,val])=>{
-    const id = idMap[deg]; if(!id) return;
-    const txt=e('txt-'+id); if(txt&&/^#[0-9a-fA-F]{6}$/.test(val))txt.value=val;
-    const clr=e('clr-'+id); if(clr&&/^#[0-9a-fA-F]{6}$/.test(val))clr.value=val;
-  });
 }
 
 function listeModalAc(id) {
@@ -2560,7 +2509,6 @@ function profilDoldur() {
     <div class="detay-satir" style="padding:12px 14px;"><span>Ad Soyad</span><span>${d.ad}</span></div>
     <div class="detay-satir" style="padding:12px 14px;border:none;"><span>Kullanıcı Adı</span><span>${d.kullanici}</span></div>`;
 
-  // Kilo grafiği danışan tarafı
   const kiloBolum = e('profil-kilo-bolum');
   if (kiloBolum) {
     const veri = d.kilo_gecmis || [];
@@ -2572,62 +2520,38 @@ function profilDoldur() {
     }
   }
 
-  // Renk ayarları panelini oluştur
+  // Renk ayarları — sadece 3 renk
   const renkBolum = e('profil-renk-bolum');
   if(!renkBolum) return;
 
-  const renkGruplari = [
-    { baslik: 'Ana Renkler', satirlar: [
-      ['Ana Renk','Header ve butonlar','--renk-ana','d-ana-renk'],
-      ['Koyu Ton','Header alt tonu','--renk-ana-koyu','d-koyu-renk'],
-      ['Açık Ton','Bölüm arka planı','--renk-ana-acik','d-acik-renk'],
-    ]},
-    { baslik: 'Arka Planlar', satirlar: [
-      ['Sayfa Arka Planı','Genel arka plan','--renk-bg','d-bg'],
-      ['Kart Arka Planı','Kartlar ve bölümler','--renk-kart','d-kart'],
-      ['Alt Menü Arka Planı','Menü çubuğu','--renk-altnav-bg','d-altnav-bg'],
-    ]},
-    { baslik: 'Yazı Renkleri', satirlar: [
-      ['Ana Yazı','Tüm sayfa yazıları','--renk-metin','d-metin'],
-      ['İkincil Yazı','Alt açıklamalar','--renk-metin2','d-metin2'],
-      ['Header Yazısı','Başlık yazıları','--renk-header-yazi','d-header-yazi'],
-      ['Menü Yazısı','Alt menü etiketleri','--renk-altnav-yazi','d-altnav-yazi'],
-      ['Bölüm Başlığı','Kısım başlıkları','--renk-baslik-yazi','d-baslik-yazi'],
-    ]},
-    { baslik: 'Tablo', satirlar: [
-      ['Tablo Başlığı','Sütun başlıkları','--renk-tablo-baslik-yazi','d-tablo-baslik'],
-      ['Gün Yazısı','Pazartesi vb.','--renk-tablo-gun-yazi','d-tablo-gun'],
-      ['Veri Sayıları','İşlenen değerler','--renk-tablo-veri-yazi','d-tablo-veri'],
-      ['Bugün Arka Planı','Bugün satırı','--renk-tablo-bugun-bg','d-tablo-bugun'],
-    ]},
+  const renkler = [
+    ['Ana Renk', 'Header ve butonlar', '--renk-ana', 'd-ana'],
+    ['Koyu Ton', 'Header alt tonu', '--renk-ana-koyu', 'd-koyu'],
+    ['Açık Ton', 'Kartların arka planı', '--renk-ana-acik', 'd-acik'],
   ];
 
   let html = `<div class="ayar-bolum">
-    <div class="ayar-baslik">🎨 Renk Ayarları</div>
-    <div style="padding:10px 14px 4px;font-size:12px;color:var(--renk-metin2);">Bu ayarlar sadece sizin cihazınızda geçerlidir.</div>`;
+    <div class="ayar-baslik">🎨 Renk Teması</div>
+    <div style="padding:10px 16px 4px;font-size:12px;color:var(--renk-metin2);">Uygulamanın rengini kişiselleştirin. Sadece sizin cihazınızda geçerlidir.</div>`;
 
-  renkGruplari.forEach(grup => {
-    html += `<div style="padding:6px 16px 2px;font-size:11px;font-weight:700;color:var(--renk-metin2);text-transform:uppercase;letter-spacing:0.5px;">${grup.baslik}</div>`;
-    grup.satirlar.forEach(([etiket, aciklama, deg, id]) => {
-      const mevcutRenk = getComputedStyle(document.documentElement).getPropertyValue(deg).trim() || '#ffffff';
-      const gosterRenk = /^#[0-9a-fA-F]{6}$/.test(mevcutRenk) ? mevcutRenk : '#ffffff';
-      html += `<div class="ayar-satir">
-        <div><div class="ayar-etiket">${etiket}</div><div class="ayar-aciklama">${aciklama}</div></div>
-        <div style="display:flex;align-items:center;gap:6px;">
-          <input type="text" id="txt-${id}" value="${gosterRenk}" maxlength="7"
-            oninput="danisanRenkKodGuncelle('${deg}','${id}',this.value)"
-            style="width:68px;padding:5px 6px;border:1.5px solid var(--renk-sinir);border-radius:8px;font-size:11px;font-family:monospace;background:var(--renk-kart,white);color:var(--renk-metin)"/>
-          <input type="color" id="clr-${id}" value="${gosterRenk}"
-            class="renk-sec" oninput="danisanRenkGuncelle('${deg}','${id}',this.value)"/>
-        </div>
-      </div>`;
-    });
+  renkler.forEach(([etiket, aciklama, deg, id]) => {
+    const mevcut = getComputedStyle(document.documentElement).getPropertyValue(deg).trim();
+    const renk = /^#[0-9a-fA-F]{6}$/.test(mevcut) ? mevcut : '#2d6a4f';
+    html += `<div class="ayar-satir">
+      <div>
+        <div class="ayar-etiket">${etiket}</div>
+        <div class="ayar-aciklama">${aciklama}</div>
+      </div>
+      <input type="color" id="clr-${id}" value="${renk}" class="renk-sec"
+        style="width:44px;height:44px;border-radius:12px;"
+        oninput="danisanRenkGuncelle('${deg}','${id}',this.value)"/>
+    </div>`;
   });
 
-  html += `<div style="padding:14px;">
-    <button class="btn-ana" onclick="danisanRenkleriKaydet()">✓ Renkleri Kaydet</button>
-    <button onclick="danisanRenkleriSifirla()" style="width:100%;margin-top:8px;background:none;border:1.5px solid var(--renk-sinir);border-radius:var(--radius);padding:12px;font-size:14px;color:var(--renk-metin2);cursor:pointer;">↺ Diyetisyen Renklerine Dön</button>
-    <div id="profil-renk-mesaj" style="margin-top:8px;font-size:13px;text-align:center;"></div>
+  html += `<div style="padding:14px;display:flex;flex-direction:column;gap:8px;">
+    <button class="btn-ana" onclick="danisanRenkleriKaydet()">✓ Kaydet</button>
+    <button onclick="danisanRenkleriSifirla()" style="background:none;border:1.5px solid var(--renk-sinir);border-radius:var(--radius);padding:12px;font-size:14px;color:var(--renk-metin2);cursor:pointer;width:100%;">↺ Varsayılana Dön</button>
+    <div id="profil-renk-mesaj" style="font-size:13px;text-align:center;"></div>
   </div></div>`;
 
   renkBolum.innerHTML = html;
