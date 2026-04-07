@@ -931,7 +931,16 @@ async function sbPatch(t, q, d) { const r = await fetch(`${SB_URL}/rest/v1/${t}?
 async function sbDelete(t, q) { await fetch(`${SB_URL}/rest/v1/${t}?${q}`, { method:'DELETE', headers: HDR }); }
 
 const GUNLER = ['Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi','Pazar'];
-let BESINLER = [{ad:'Ekmek',ikon:'🍞'},{ad:'Su',ikon:'💧'},{ad:'Süt',ikon:'🥛'},{ad:'Et',ikon:'🥩'},{ad:'Sebze',ikon:'🥦'},{ad:'Meyve',ikon:'🍎'},{ad:'Yağ',ikon:'🫙'},{ad:'Yağlı Tohum',ikon:'🌰'}];
+let BESINLER = [
+  {ad:'Ekmek',ikon:'🍞'},
+  {ad:'Su',ikon:'💧'},
+  {ad:'Süt',ikon:'🥛'},
+  {ad:'Et',ikon:'🥩'},
+  {ad:'Sebze',ikon:'🥦'},
+  {ad:'Meyve',ikon:'🍎'},
+  {ad:'Yağ',ikon:'🫙'},
+  {ad:'Yağlı Tohum',ikon:'🌰',butonAd:'Y.Toh.',tabloAd:'Y.Tohumlu'}
+];
 let ayarlar = { adminAdi:'', adminSifre:'', appAdi:'DiyetTakip', slogan:'Beslenme takip programı', anaRenk:'#2d6a4f', koyuRenk:'#1b4332', acikRenk:'#d8f3dc', adminEposta:'', ejsServiceId:'', ejsTemplateId:'', ejsPublicKey:'',
   tabloSatirYukseklik: 32, tabloYaziBoyutu: 11, tabloGunGenislik: 60, tabloHucreGenislik: 36
 };
@@ -1877,7 +1886,7 @@ function detayIcerigiOlustur(d) {
     </div>`;
   }).join('');
 
-  let th=`<table class="diyet-tablo" style="min-width:520px;"><thead><tr><th>Gün</th>${BESINLER.map(b=>`<th>${b.ikon}</th>`).join('')}</tr></thead><tbody>`;
+  let th=`<table class="diyet-tablo" style="min-width:520px;"><thead><tr><th>Gün</th>${BESINLER.map(b=>`<th>${b.tabloAd||b.ad}</th>`).join('')}</tr></thead><tbody>`;
   GUNLER.forEach((g,i)=>{
     const bg=i===bi;
     th+=`<tr class="${bg?'bugun':''}"><td>${g.slice(0,3)}${bg?'<span class="bugun-etiketi">bugün</span>':''}</td>`;
@@ -2219,7 +2228,8 @@ function takipGridiOlustur() {
   const bg=GUNLER[bugunIndex()];
   e('takip-grid').innerHTML=BESINLER.map(b=>{
     const v=(d.tablo[bg]||{})[b.ad]||0, key=b.ad.replace(/\s/g,'_');
-    return `<div class="takip-ogesi"><span style="font-size:18px;">${b.ikon}</span><span class="takip-etiket">${b.ad}</span>
+    const etiket = b.butonAd || b.ad;
+    return `<div class="takip-ogesi"><span style="font-size:18px;">${b.ikon}</span><span class="takip-etiket">${etiket}</span>
       <button class="btn-kk" onclick="besinDegistir('${b.ad}',-1)">−</button>
       <span class="takip-sayi" id="ts-${key}">${v}</span>
       <button class="btn-kk" onclick="besinDegistir('${b.ad}',1)">+</button></div>`;
