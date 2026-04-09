@@ -415,11 +415,17 @@ body { font-family: var(--font); color: var(--renk-metin); background: var(--ren
       <button class="geri-btn" onclick="cikisYap()" style="font-size:13px;">↩</button>
     </div>
     <div class="icerik" style="padding:8px 14px 4px;">
+      <!-- GÜN SEÇİCİ -->
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;background:var(--renk-ana-acik);border-radius:12px;padding:8px 12px;">
+        <span style="font-size:13px;font-weight:600;color:var(--renk-ana);flex:1;" id="secili-gun-yazisi">📅 Bugün</span>
+        <button onclick="gecmisGunAc()" style="background:var(--renk-ana);color:white;border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;">Gün Seç</button>
+        <button id="bugun-don-btn" onclick="buguneDon()" style="display:none;background:none;border:1.5px solid var(--renk-ana);color:var(--renk-ana);border-radius:8px;padding:6px 10px;font-size:12px;font-weight:600;cursor:pointer;">↩ Bugün</button>
+      </div>
       <div id="hedef-bolum" style="margin-bottom:8px;display:none;">
         <div class="takip-baslik" style="margin-bottom:4px;">🎯 Günlük Hedefler</div>
         <div class="hedef-grid" id="hedef-grid"></div>
       </div>
-      <div class="takip-baslik">📝 Bugün ekle / çıkar</div>
+      <div class="takip-baslik" id="takip-baslik-yazi">📝 Bugün ekle / çıkar</div>
       <div class="takip-grid" id="takip-grid"></div>
     </div>
     <div class="alt-nav">
@@ -969,6 +975,63 @@ let ayarlar = { adminAdi:'', adminSifre:'', appAdi:'DiyetTakip', slogan:'Beslenm
 let danisanlar = [];
 let mevcutRol = 'admin';
 let mevcutDanisanId = null;
+let seciliGunIndex = null; // null = bugün
+
+function aktifGunIndex() {
+  return seciliGunIndex !== null ? seciliGunIndex : bugunIndex();
+}
+
+function buguneDon() {
+  seciliGunIndex = null;
+  const yazisi = e('secili-gun-yazisi'); if(yazisi) yazisi.textContent = '📅 Bugün';
+  const btn = e('bugun-don-btn'); if(btn) btn.style.display = 'none';
+  const baslik = e('takip-baslik-yazi'); if(baslik) baslik.textContent = '📝 Bugün ekle / çıkar';
+  takipGridiOlustur(); hedefGridiOlustur();
+}
+
+function gecmisGunAc() {
+  const bugun = bugunIndex();
+  const gunler = GUNLER.map((g, i) => {
+    const bugunMu = i === bugun;
+    const seciliMi = seciliGunIndex === i || (seciliGunIndex === null && bugunMu);
+    return `<button onclick="gunSec(${i})"
+      style="width:100%;padding:14px 16px;background:${seciliMi?'var(--renk-ana)':'var(--renk-kart,white)'};
+      color:${seciliMi?'white':'var(--renk-metin)'};border:1.5px solid ${bugunMu?'var(--renk-ana)':'var(--renk-sinir)'};
+      border-radius:10px;font-size:14px;font-weight:${bugunMu?'700':'500'};
+      cursor:pointer;text-align:left;display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+      <span>${seciliMi?'✓':bugunMu?'📅':'·'}</span>
+      <span style="flex:1;">${g}</span>
+      ${bugunMu?'<span style="font-size:11px;opacity:0.7;">Bugün</span>':''}
+    </button>`;
+  });
+  const overlay = document.createElement('div');
+  overlay.id = 'gun-sec-overlay';
+  overlay.style.cssText = 'position:absolute;inset:0;background:rgba(0,0,0,0.5);z-index:400;display:flex;align-items:flex-end;';
+  overlay.innerHTML = `<div style="background:var(--renk-bg,white);border-radius:24px 24px 0 0;padding:20px;width:100%;max-height:85%;overflow-y:auto;animation:yukariCik 0.25s ease;">
+    <div style="width:40px;height:4px;background:var(--renk-sinir);border-radius:2px;margin:0 auto 16px;"></div>
+    <div style="font-size:16px;font-weight:700;color:var(--renk-metin);margin-bottom:14px;">📅 Hangi günün verisini gireceksiniz?</div>
+    ${gunler.join('')}
+    <button onclick="gunSecKapat()" style="width:100%;margin-top:4px;background:none;border:none;color:var(--renk-metin2);font-size:14px;padding:12px;cursor:pointer;">İptal</button>
+  </div>`;
+  overlay.addEventListener('click', ev => { if(ev.target===overlay) gunSecKapat(); });
+  e('app').appendChild(overlay);
+}
+
+function gunSecKapat() { const ov=e('gun-sec-overlay'); if(ov)ov.remove(); }
+
+function gunSec(idx) {
+  gunSecKapat();
+  seciliGunIndex = idx;
+  const bugun = bugunIndex();
+  const gun = GUNLER[idx];
+  const yazisi = e('secili-gun-yazisi');
+  if(yazisi) yazisi.textContent = idx===bugun ? '📅 Bugün ('+gun+')' : '📅 '+gun;
+  const btn = e('bugun-don-btn');
+  if(btn) btn.style.display = idx===bugun ? 'none' : 'block';
+  const baslik = e('takip-baslik-yazi');
+  if(baslik) baslik.textContent = '📝 '+gun+' ekle / çıkar';
+  takipGridiOlustur(); hedefGridiOlustur();
+}
 let secilenDanisanId = null;
 let kaydetTimer = null;
 
@@ -1845,6 +1908,7 @@ function ekranGoster(id) {
 }
 function danisanGirisYap(d) {
   mevcutDanisanId = d.id;
+  seciliGunIndex = null; // Giriş yapınca bugüne dön
   e('danisan-karsilama').textContent = d.ad.split(' ')[0] + "'nin Listesi";
   danisanTablosunuOlustur();
   takipGridiOlustur();
@@ -2305,7 +2369,7 @@ function danisanTablosunuOlustur() {
 
 function takipGridiOlustur() {
   const d=danisanlar.find(c=>c.id===mevcutDanisanId); if(!d)return;
-  const bg=GUNLER[bugunIndex()];
+  const bg=GUNLER[aktifGunIndex()];
   e('takip-grid').innerHTML=BESINLER.map(b=>{
     const v=(d.tablo[bg]||{})[b.ad]||0, key=b.ad.replace(/\s/g,'_');
     const etiket = b.butonAd || b.ad;
@@ -2441,7 +2505,7 @@ function hedefGridiOlustur() {
   const bolum = e('hedef-bolum');
   if (!herhangiSinir) { bolum.style.display = 'none'; return; }
   bolum.style.display = 'block';
-  const bg = GUNLER[bugunIndex()];
+  const bg = GUNLER[aktifGunIndex()];
   e('hedef-grid').innerHTML = BESINLER.map(b => {
     const limit = sinirlar[b.ad] || 0;
     if (!limit) return '';
@@ -2461,7 +2525,6 @@ function hedefGridiOlustur() {
     </div>`;
   }).filter(Boolean).join('');
 }
-
 function hedefSinif(bugun, limit) {
   if (!limit || bugun === 0) return 'asimadi';
   const oran = bugun / limit;
@@ -2492,12 +2555,13 @@ function hedefGuncelle(besin, yeniDeger) {
 
 async function besinDegistir(besin, delta) {
   const d=danisanlar.find(c=>c.id===mevcutDanisanId); if(!d)return;
-  const bg=GUNLER[bugunIndex()];
+  const gunIdx = aktifGunIndex();
+  const bg=GUNLER[gunIdx];
   if(!d.tablo[bg])d.tablo[bg]={};
   d.tablo[bg][besin]=Math.max(0,(d.tablo[bg][besin]||0)+delta);
   const v=d.tablo[bg][besin], key=besin.replace(/\s/g,'_');
   const ts=e('ts-'+key); if(ts)ts.textContent=v;
-  const hEl=e(`h-${bugunIndex()}-${key}`); if(hEl){hEl.textContent=v||'·';hEl.classList.toggle('dolu',v>0);}
+  const hEl=e(`h-${gunIdx}-${key}`); if(hEl){hEl.textContent=v||'·';hEl.classList.toggle('dolu',v>0);}
   hedefGuncelle(besin, v);
   clearTimeout(kaydetTimer);
   kaydetTimer=setTimeout(()=>danisaniSunucuyaKaydet(d),1000);
