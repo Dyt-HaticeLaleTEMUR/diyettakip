@@ -417,7 +417,7 @@ body { font-family: var(--font); color: var(--renk-metin); background: var(--ren
     <div class="icerik" style="padding:8px 14px 4px;">
       <!-- GÜN SEÇİCİ -->
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;background:var(--renk-ana-acik);border-radius:12px;padding:8px 12px;">
-        <span style="font-size:13px;font-weight:600;color:var(--renk-ana);flex:1;" id="secili-gun-yazisi">📅 Bugün</span>
+        <span style="font-size:13px;font-weight:600;color:var(--renk-ana);flex:1;" id="secili-gun-yazisi">Bugün</span>
         <button onclick="gecmisGunAc()" style="background:var(--renk-ana);color:white;border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;">Gün Seç</button>
         <button id="bugun-don-btn" onclick="buguneDon()" style="display:none;background:none;border:1.5px solid var(--renk-ana);color:var(--renk-ana);border-radius:8px;padding:6px 10px;font-size:12px;font-weight:600;cursor:pointer;">↩ Bugün</button>
       </div>
@@ -983,7 +983,10 @@ function aktifGunIndex() {
 
 function buguneDon() {
   seciliGunIndex = null;
-  const yazisi = e('secili-gun-yazisi'); if(yazisi) yazisi.textContent = '📅 Bugün';
+  const s = new Date();
+  const aylar = ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
+  const tarihStr = s.getDate().toString().padStart(2,'0') + ' ' + aylar[s.getMonth()];
+  const yazisi = e('secili-gun-yazisi'); if(yazisi) yazisi.textContent = 'Bugün — ' + tarihStr;
   const btn = e('bugun-don-btn'); if(btn) btn.style.display = 'none';
   const baslik = e('takip-baslik-yazi'); if(baslik) baslik.textContent = '📝 Bugün ekle / çıkar';
   takipGridiOlustur(); hedefGridiOlustur();
@@ -1025,7 +1028,7 @@ function gunSec(idx) {
   const bugun = bugunIndex();
   const gun = GUNLER[idx];
   const yazisi = e('secili-gun-yazisi');
-  if(yazisi) yazisi.textContent = idx===bugun ? '📅 Bugün ('+gun+')' : '📅 '+gun;
+  if(yazisi) yazisi.textContent = idx===bugun ? 'Bugün ('+gun+')' : gun;
   const btn = e('bugun-don-btn');
   if(btn) btn.style.display = idx===bugun ? 'none' : 'block';
   const baslik = e('takip-baslik-yazi');
@@ -1043,11 +1046,14 @@ function tabloyuGuncelle(tablo) { GUNLER.forEach(g=>{if(!tablo[g])tablo[g]={};BE
 function saatiGuncelle() {
   const s=new Date(), str=s.getHours().toString().padStart(2,'0')+':'+s.getMinutes().toString().padStart(2,'0');
   ['saat','saat2','saat3','saat4','saat-listem','saat-degisim','saat-profil','saat-haftalik'].forEach(id=>{const el=e(id);if(el)el.textContent=str;});
-  // Haftalık tablo tarih ikonu
-  const tarihIkon = e('haftalik-tarih-ikon');
-  if(tarihIkon) {
-    const aylar = ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
-    tarihIkon.textContent = s.getDate().toString().padStart(2,'0') + ' ' + aylar[s.getMonth()];
+  const aylar = ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
+  const tarihStr = s.getDate().toString().padStart(2,'0') + ' ' + aylar[s.getMonth()];
+  // Haftalık tablo ikonu
+  const tarihIkon = e('haftalik-tarih-ikon'); if(tarihIkon) tarihIkon.textContent = tarihStr;
+  // Tablo sekmesi bugün yazısı (sadece bugün seçiliyse)
+  if(seciliGunIndex === null) {
+    const gunYazisi = e('secili-gun-yazisi');
+    if(gunYazisi) gunYazisi.textContent = 'Bugün — ' + tarihStr;
   }
 }
 
